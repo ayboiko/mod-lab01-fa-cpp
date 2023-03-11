@@ -2,57 +2,64 @@
 #include "fun.h"
 
 unsigned int faStr1(const char *str) {
-int i = 0; int kl = 0; bool byk; bool kon = false;
-while (str[i-1] != '\0') {
-if (str[i] != ' ' && str[i] != '\0'){
-if (kon == false){
-byk = true; }
-if (str[i] >= '1' && str[i] <= '9')
-{ byk = false; }
-kon = true;}
-else {if ( kon == true ) { kon = false; if ( byk == true ) { kl++; }}}
-i++;
-}
-return kl;
+  int kl = 0;
+    int f1 = 0, f2 = 0;
+    for (int i = 0; str[i] != '\0'; i++) {
+        if ('0' <= str[i] && str[i] <= '9') {
+            f1 = 1;
+        }
+        if (str[i] != ' ') {
+            f2 = 1;
+        }
+        if (str[i] == ' ' && f2 == 1) {
+            if (f1 == 0)
+                kl++;
+            f1 = 0;
+            f2 = 0;
+        }
+    }
+    return kl;
 }
 
 unsigned int faStr2(const char *str) {
-int i = 0; int kl = 0; bool bykva=false; bool nach = true;
-bool norm=false;
-while (str[i - 1] != '\0') {
-if (str[i] != ' ' && str[i] != '\0'){ 
-if (nach == true){ 
-bykva = true;norm =true;
+  int kl = 0;
+    int fw = 0;
+    int fs = 1;
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (str[i] >= 'A' && str[i] <= 'Z' && fs != 0)
+            fw = 1;
+        if (str[i] >= 'A' && str[i] <= 'z') {
+            fs = 0;
+        } else if (str[i] != ' ') {
+            fw = 0;
+        } else {
+            if (fw == 1) {
+                kl++;
+            }
+            fs = 1;
+            fw = 0;
+        }
+    }
+    return kl;
 }
-if (nach == true){ 
-if (str[i] >= 'A' && str[i] <= 'Z') { bykva = true; }
-else { bykva = false; }}
-else {
-if (str[i] >= 'a' && str[i] <= 'z'){ norm = true; } 
-else {norm = false; }
-}
-nach = false;
-}
-else{ nach = true; if (norm && bykva) {kl++;}}
-i++;
-} 
-return kl;
-}
-unsigned int faStr3(const char *str) { 
-int i = 0; int kl; bool nach = true; double ob_kl = 0; double kl_slov = 0;
-while (str[i - 1] != '\0') { 
-if (str[i] != ' ' && str[i] != '\0') {
-if (nach == true) { kl = 0; kl_slov++; }
-kl++; 
-if (str[i + 1] == ' ' || str[i+1] == '\0'){ ob_kl = ob_kl + kl; }
-nach = false; }
-else {
-nach = true;
-}
-i++; 
-}
-double sr = ob_kl / kl_slov; int itog;
-int okon = static_cast<int>(sr * 10)%10;
-if (okon >= 5) { itog = static_cast<int>(sr)+ 1; } else {itog = static_cast<int>(sr); }
-return itog;
+unsigned int faStr3(const char *str) {
+  int kl_slov = 0;
+    int ob_kl = 0;
+    int fw = 0;
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (str[i] != ' ') {
+            ob_kl++;
+            fw = 1;
+        }
+        if (str[i] == ' ') {
+            if (fw != 0) kl_slov++;
+            fw = 0;
+        }
+    }
+    if (fw != 0)
+        kl_slov++;
+    float sr = ob_kl / kl_slov;
+    if ((sr - static_cast<int>(sr)) >= 0.5)
+        return static_cast<int>(sr) + 1;
+    return static_cast<int>(sr);
 }
